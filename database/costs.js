@@ -4,9 +4,11 @@ const mongoose = require("mongoose");
 const priceHistorySchema = new mongoose.Schema({
   date: { type: Date, default: Date.now },
   unitPrice: { type: Number },
-  filamentCost: { type: Number },
-  multiplePrintQty: { type: Number }, // ✅ bunu ekle
-  multiplePrintUnitPrice: { type: Number },
+  quantity: { type: Number },
+  total: { type: Number },
+  competitor: { type: String },
+  competitorPrice: { type: Number },
+  competitorPriceDate: { type: Date },
   user: { type: String }, // değişikliği yapan kullanıcı
   actionDetail: { type: String }, // işlem detayı (ör: "Maliyet Güncellendi")
 });
@@ -15,13 +17,14 @@ const priceHistorySchema = new mongoose.Schema({
 const costSchema = new mongoose.Schema(
   {
     productName: { type: String, required: true },
-    productBarcode: { type: String },
-    filamentBrand: { type: String, required: true },
-    filamentColor: { type: String, required: true },
-    filamentCost: { type: Number, required: true },
+    productBarcode: { type: String }, // ✅ stok kodu alanı eklendi
     unitPrice: { type: Number, required: true },
-    multiplePrintQty: { type: Number, required: true },
-    multiplePrintUnitPrice: { type: Number, required: true },
+    quantity: { type: Number, required: true },
+    total: { type: Number, required: true },
+    competitor: { type: String, required: true },
+    competitorPrice: { type: Number },
+    competitorPriceDate: { type: Date },
+    date: { type: Date, required: true },
     priceHistory: [priceHistorySchema], // price history array
   },
   { timestamps: true }
