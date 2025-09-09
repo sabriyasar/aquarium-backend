@@ -17,7 +17,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:4040",                 // local frontend
-      "aquarium-web-app.vercel.app"    // deployed frontend
+      "https://aquarium-web-app.vercel.app/"    // deployed frontend
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
