@@ -48,37 +48,42 @@ router.put("/:id", async (req, res) => {
     const {
       productName,
       productBarcode,
-      filamentBrand,
-      filamentColor,
-      filamentCost,
       unitPrice,
-      multiplePrintQty,
-      multiplePrintUnitPrice,
+      quantity,
+      kdv,
+      total,
+      competitor,
+      competitorPrice,
+      competitorPriceDate,
+      date,
       user,
     } = req.body;
 
     // Değişiklikleri tespit et
     const changedFields = [];
-    if (unitPrice !== undefined && unitPrice !== cost.unitPrice)
-      changedFields.push("Ürün Birim Fiyatı güncellendi");
-    if (filamentCost !== undefined && filamentCost !== cost.filamentCost)
-      changedFields.push("Filament Ücreti değişti");
-    if (multiplePrintUnitPrice !== undefined && multiplePrintUnitPrice !== cost.multiplePrintUnitPrice)
-      changedFields.push("Çoklu Baskı Birim Fiyatı değişti");
-    if (multiplePrintQty !== undefined && multiplePrintQty !== cost.multiplePrintQty)
-      changedFields.push("Çoklu Baskı Adedi değişti");
+    if (unitPrice !== undefined && unitPrice !== cost.unitPrice) changedFields.push("Ürün Birim Fiyatı güncellendi");
+    if (quantity !== undefined && quantity !== cost.quantity) changedFields.push("Adet değişti");
+    if (kdv !== undefined && kdv !== cost.kdv) changedFields.push("KDV değişti");
+    if (total !== undefined && total !== cost.total) changedFields.push("Toplam değişti");
+    if (competitorPrice !== undefined && competitorPrice !== cost.competitorPrice) changedFields.push("Rakip Fiyatı değişti");
+    if (competitorPriceDate !== undefined && String(competitorPriceDate) !== String(cost.competitorPriceDate)) changedFields.push("Rakip Fiyat Tarihi değişti");
+    if (competitor !== undefined && competitor !== cost.competitor) changedFields.push("Rakip Firma değişti");
+    if (productName !== undefined && productName !== cost.productName) changedFields.push("Ürün Adı değişti");
+    if (productBarcode !== undefined && productBarcode !== cost.productBarcode) changedFields.push("Stok Kodu değişti");
+    if (date !== undefined && String(date) !== String(cost.date)) changedFields.push("Tarih değişti");
 
     // Price history’ye yeni kayıt ekle
     cost.priceHistory.push({
       date: new Date(),
       productName,
       productBarcode,
-      filamentBrand,
-      filamentColor,
-      filamentCost,
       unitPrice,
-      multiplePrintQty,
-      multiplePrintUnitPrice,
+      quantity,
+      kdv,
+      total,
+      competitor,
+      competitorPrice,
+      competitorPriceDate,
       actionDetail: changedFields.length > 0 ? changedFields.join(", ") : "Güncelleme yapıldı",
       user: user || "Unknown",
     });
