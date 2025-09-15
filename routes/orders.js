@@ -5,7 +5,23 @@ const Order = require("../database/order");
 // 📌 Yeni sipariş oluştur
 router.post("/", async (req, res) => {
   try {
-    const newOrder = new Order(req.body);
+    const { items } = req.body;
+
+    const totalAmount = items.reduce((acc, item) => {
+      const qty = Number(item.quantity);
+      const price = Number(item.unitPrice);
+      const kdv = Number(item.kdv || 0);
+      const subtotal = price * qty;
+      const totalItem = subtotal + (subtotal * kdv) / 100;
+      return acc + totalItem;
+    }, 0);
+
+    const newOrder = new Order({
+      ...req.body,
+      totalAmount,
+      status: req.body.status || "Onay bekliyor",
+    });
+
     const savedOrder = await newOrder.save();
     res.status(201).json(savedOrder);
   } catch (err) {
@@ -39,6 +55,23 @@ router.delete("/:id", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Sipariş silinemedi", error: err.message });
+  }
+});
+
+// 📌 Sipariş güncelle
+router.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedOrder = await Order.findByIdAndUpdate(id, req.body, { new: true });
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: "Sipariş bulunamadı" });
+    }
+
+    res.json({ message: "Sipariş başarıyla güncellendi", order: updatedOrder });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Sipariş güncellenemedi", error: err.message });
   }
 });
 

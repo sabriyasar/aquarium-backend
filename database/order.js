@@ -13,6 +13,13 @@ const OrderSchema = new mongoose.Schema(
     ],
     totalAmount: { type: Number, required: true },
     date: { type: Date, default: Date.now },
+
+    // 📌 Yeni alan
+    status: {
+      type: String,
+      enum: ["Taslak", "Onay bekliyor", "Onaylandı"],
+      default: "Onay bekliyor",
+    },
   },
   { timestamps: true }
 );
