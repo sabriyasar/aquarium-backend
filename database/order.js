@@ -9,6 +9,10 @@ const OrderSchema = new mongoose.Schema(
         quantity: { type: Number, required: true },
         unitPrice: { type: Number, required: true },
         total: { type: Number, required: true },
+        // Yeni alanlar
+        discount: { type: Number, default: 0 }, // % olarak
+        competitorPrice: { type: Number, default: 0 },
+        competitorPriceDate: { type: Date, default: null },
       },
     ],
     totalAmount: { type: Number, required: true },
