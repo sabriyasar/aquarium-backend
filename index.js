@@ -6,6 +6,7 @@ const connectDB = require("./database/connection");
 const productRoutes = require("./routes/productRoutes");
 const costsRouter = require("./routes/costs");
 const ordersRoute = require("./routes/orders");
+const barcodeRoutes = require("./routes/barcode");
 
 const app = express();
 
@@ -29,6 +30,8 @@ app.use(express.json());
 app.use("/api/products", productRoutes);
 app.use("/api/costs", costsRouter);
 app.use("/api/orders", ordersRoute);
+app.use("/api", barcodeRoutes);
+
 
 // Test endpoint
 app.get("/api/test", (req, res) => {
